@@ -1,8 +1,9 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+
 const app = express();
-const port = 5000;
+const PORT = process.env.PORT || 3003;
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -20,7 +21,7 @@ app.post('/api/todos', (req, res) => {
     _id: new Date().getTime().toString(),
     title: req.body.title,
     description: req.body.description,
-    createdAt: new Date().toISOString()
+    createdAt: new Date().toISOString(),
   };
   todos.push(newTodo);
   res.json(newTodo);
@@ -32,7 +33,7 @@ app.put('/api/todos/:id', (req, res) => {
   const updatedTodo = {
     _id: todoId,
     title: req.body.title,
-    description: req.body.description
+    description: req.body.description,
   };
   todos = todos.map((todo) => (todo._id === todoId ? updatedTodo : todo));
   res.json(updatedTodo);
@@ -45,6 +46,6 @@ app.delete('/api/todos/:id', (req, res) => {
   res.json({ message: 'Todo deleted' });
 });
 
-app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
+app.listen(PORT, () => {
+  console.log(`Server running at http://localhost:${PORT}`);
 });
